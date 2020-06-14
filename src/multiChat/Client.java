@@ -20,6 +20,10 @@ class Client {
     private BufferedReader reader;
     private String name;
 
+    public Socket getClientSocket() {
+        return clientSocket;
+    }
+
     public Client(String ip, int port) {
         this.ip = ip;
         this.port = port;
@@ -100,6 +104,7 @@ class Client {
                     if (message.equals("exit")) {
                         out.write("exit" + "\n");
                         Client.this.disconnect();
+                        clientsList.remove(this);
                         break;
                     } else {
                         out.write(LocalDateTime.now() + " " + name + ": " + message + "\n"); // отправляем на сервер
