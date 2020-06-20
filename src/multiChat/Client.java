@@ -72,7 +72,7 @@ class Client {
     }
 
 
-    private class ReadMessage extends Thread  {
+    public class ReadMessage extends Thread  {
         @Override
         public void run() {
 
@@ -80,11 +80,7 @@ class Client {
             try {
                 while (true) {
                     message = in.readLine();
-                    if (message.equals("exit")) {
-                        Client.this.disconnect();//отсоединяем клиента
-                        clientsList.remove(this);// удаляем из листа
-                        break;
-                    }
+
                     System.out.println(message);
                 }
             } catch (IOException e) {
@@ -101,10 +97,12 @@ class Client {
                 try {
 
                     message = reader.readLine();
-                    if (message.equals("exit")) {
-                        out.write("exit" + "\n");
-                        Client.this.disconnect();
-                        clientsList.remove(this);
+                    if (message.equals("stop")) {
+                        out.write("stop" + "\n");
+                        System.out.println("клиент отключается");
+                       // clientsList.remove(this);// удаляем из листа
+                        Client.this.disconnect();//отсоединяем клиента
+
                         break;
                     } else {
                         out.write(LocalDateTime.now() + " " + name + ": " + message + "\n"); // отправляем на сервер
